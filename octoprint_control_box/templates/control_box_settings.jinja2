@@ -1,0 +1,57 @@
+<h4>Control Box Settings</h4>
+<form class="form-horizontal">
+    <h5>GPIO pins</h5>
+    <div class="control-group">
+        <label class="control-label">Printer</label>
+        <div class="controls">
+            <input type="text" class="input-block-level" data-bind="value: settings.plugins.control_box.PrinterGPIO">
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">Fans</label>
+        <div class="controls">
+            <input type="text" class="input-block-level" data-bind="value: settings.plugins.control_box.FanGPIO">
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">Lights</label>
+        <div class="controls">
+            <input type="text" class="input-block-level" data-bind="value: settings.plugins.control_box.LightGPIO">
+        </div>
+    </div>
+    <h5>Webcam</h5>
+    <div class="control-group">
+        <label class="control-label">Controller script</label>
+        <div class="controls">
+            <input type="text" class="input-block-level" data-bind="value: settings.plugins.control_box.WebCamDaemonController">
+        </div>
+    </div>
+    <h5>Automation</h5>
+    <div class="control-group">
+        <label class="control-label">SoC temperature at which the fan start running in Celsius:</label>
+        <div class="controls">
+            <input type="text" class="input-block-level" data-bind="value: settings.plugins.control_box.FanTemperatorThreshold">
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">Hot-end temperature over which the printer cannot be shutted down:</label>
+        <div class="controls">
+            <input type="text" class="input-block-level" data-bind="value: settings.plugins.control_box.MaxHotendTempBeforeShutdown">
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">Minutes to idle before shutting down the printer is shut down (-1 for never):</label>
+        <div class="controls">
+            <input type="text" class="input-block-level" data-bind="value: settings.plugins.control_box.MinutesBeforeShutdown">
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">Coupling</label>
+        <div class="controls">
+            <input class="input-checkbox" type="checkbox" data-bind="checked: settings.plugins.control_box.CoupleLightWithPrinter" style="display: inline-block;margin-bottom: 5px;">Light/Printing</input>
+            <input class="input-checkbox" type="checkbox" data-bind="checked: settings.plugins.control_box.CoupleCameraWithPrinter" style="display: inline-block;margin-bottom: 5px;">Camera/Printer</input>
+            <input class="input-checkbox" type="checkbox" data-bind="checked: settings.plugins.control_box.CouplePrinterWithConnect" style="display: inline-block;margin-bottom: 5px;">Printer/Connect</input>
+            <input class="input-checkbox" type="checkbox" data-bind="checked: settings.plugins.control_box.CoupleUSBWithConnect" style="display: inline-block;margin-bottom: 5px;">USB/Connect</input>
+        </div>
+    </div>
+</form>
