@@ -2,11 +2,10 @@
 from __future__ import absolute_import
 
 import octoprint.plugin
-from . import gpio,events,printer,sleep,usb_power,webcam
+from . import gpio,events,printer,sleep,usb_power,webcam,rule
 
 # Scenarii:
 #   TODO turn off after extruder temp is under X for Y s
-#   TODO Lighting & Camera: turn on lighting along with camera and automate turning on/off camera (integration with octolapse)
 #   TODO Fan: Turn on fan when temp > 45C, turn off when temp <= 40C
 
 class ControlBoxPlugin(octoprint.plugin.SettingsPlugin,
@@ -23,9 +22,8 @@ class ControlBoxPlugin(octoprint.plugin.SettingsPlugin,
         self.printer_factory = printer.PrinterFactory()
         self._events = events.EventsDispatcher()
         self._triggers = [
-			# TODO: turn on camera lights?
+            # Turn on the printer when trying to connect as well as the webcam.
 			self.printer_factory.trigger().chain(
-				# Turn on the printer when trying to connect as well as the webcam.
 				usb_power.SwitchUSBPower()
 				).chain(
 					self._webcam.action()
@@ -43,6 +41,16 @@ class ControlBoxPlugin(octoprint.plugin.SettingsPlugin,
 				).chain(
 					usb_power.SwitchUSBPower(False)
 				),
+            # Turn on the light when taking a screen shot
+            self._events.trigger("CaptureStart").chain(
+                rule.NotCondition(self._gpio.condition("Light"))
+                ).chain(
+                    self._gpio.action("Light", True)
+                ).chain(
+                    self._events.wait_for("CaptureDone", "CaptureFailed").chain(
+                        self._gpio.action("Light", False)
+                    )
+                )
 		]
 
     ##~ Events
